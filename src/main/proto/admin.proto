@@ -1,0 +1,47 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.grpccrudpostgres.grpc";
+package  com.admin.grpcproto;
+
+service Adminservice{
+
+  rpc SetDoctorInfo(Doctor) returns (Doctor);
+
+  rpc UpdateDoctorInfo(Doctor) returns(StatusMessage);
+
+  rpc DeleteDoctorInfo(Doctor)returns(StatusMessage);
+//server side Streaming
+  rpc GetAllDoctorInfo(Empty)returns(stream Doctor);
+//  client side streaming
+  rpc SetListOfDoctorInfo(stream Doctors)returns(Empty);
+
+}
+message Empty{
+
+}
+message  StatusMessage {
+  string stat_message = 1;
+}
+
+message Patient {
+  int32 id = 1;
+  string name = 2;
+  string doctor_name = 3;
+  string address = 4;
+repeated  PatientSymptom patientsymptom=5;
+}
+
+message PatientSymptom {
+  string name = 1;
+}
+
+message Doctor {
+  int32  id = 1;
+  string name = 3;
+  string specialist = 4;
+  string experience_year = 5;
+}
+
+message Doctors{
+  repeated Doctor doctor=1;
+}
